@@ -15,9 +15,22 @@
  */
 package org.thingsboard.server.common.data.sms.config;
 
-public enum SmsProviderType {
-    AWS_SNS,
-    TWILIO,
-    SPARROW,
-    SMPP
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+
+@ApiModel
+@Data
+public class SparrowSmsProviderConfiguration implements SmsProviderConfiguration {
+
+    @ApiModelProperty(position = 1, value = "Sparrow SMS Token.")
+    private String token;
+    @ApiModelProperty(position = 2, value = "The number/id of a sender.")
+    private String numberFrom;
+
+    @Override
+    public SmsProviderType getType() {
+        return SmsProviderType.SPARROW;
+    }
+
 }

@@ -21,9 +21,11 @@ import org.thingsboard.rule.engine.api.sms.SmsSenderFactory;
 import org.thingsboard.server.common.data.sms.config.AwsSnsSmsProviderConfiguration;
 import org.thingsboard.server.common.data.sms.config.SmppSmsProviderConfiguration;
 import org.thingsboard.server.common.data.sms.config.SmsProviderConfiguration;
+import org.thingsboard.server.common.data.sms.config.SparrowSmsProviderConfiguration;
 import org.thingsboard.server.common.data.sms.config.TwilioSmsProviderConfiguration;
 import org.thingsboard.server.service.sms.aws.AwsSmsSender;
 import org.thingsboard.server.service.sms.smpp.SmppSmsSender;
+import org.thingsboard.server.service.sms.sparrow.SparrowSmsSender;
 import org.thingsboard.server.service.sms.twilio.TwilioSmsSender;
 
 @Component
@@ -38,6 +40,8 @@ public class DefaultSmsSenderFactory implements SmsSenderFactory {
                 return new TwilioSmsSender((TwilioSmsProviderConfiguration)config);
             case SMPP:
                 return new SmppSmsSender((SmppSmsProviderConfiguration) config);
+            case SPARROW:
+                return new SparrowSmsSender((SparrowSmsProviderConfiguration) config);
             default:
                 throw new RuntimeException("Unknown SMS provider type " + config.getType());
         }

@@ -81,10 +81,12 @@ export interface UpdateMessage {
 
 export const phoneNumberPattern = /^\+[1-9]\d{1,14}$/;
 export const phoneNumberPatternTwilio = /^\+[1-9]\d{1,14}$|^(MG|PN).*$/;
+export const phoneNumberPatternSparrow = /^\+[1-9]\d{1,14}$|^(MG|PN).*$/;
 
 export enum SmsProviderType {
   AWS_SNS = 'AWS_SNS',
   TWILIO = 'TWILIO',
+  SPARROW = 'SPARROW',
   SMPP = 'SMPP'
 }
 
@@ -92,6 +94,7 @@ export const smsProviderTypeTranslationMap = new Map<SmsProviderType, string>(
   [
     [SmsProviderType.AWS_SNS, 'admin.sms-provider-type-aws-sns'],
     [SmsProviderType.TWILIO, 'admin.sms-provider-type-twilio'],
+    [SmsProviderType.SPARROW, 'admin.sms-provider-type-sparrow'],
     [SmsProviderType.SMPP, 'admin.sms-provider-type-smpp']
   ]
 );
@@ -105,6 +108,11 @@ export interface AwsSnsSmsProviderConfiguration {
 export interface TwilioSmsProviderConfiguration {
   accountSid?: string;
   accountToken?: string;
+  numberFrom?: string;
+}
+
+export interface SparrowSmsProviderConfiguration {
+  token?: string;
   numberFrom?: string;
 }
 
@@ -317,7 +325,7 @@ export const codingSchemesMap = new Map<CodingSchemes, TypeDescriptor>([
 ]);
 
 export type SmsProviderConfigurations =
-  Partial<SmppSmsProviderConfiguration> & AwsSnsSmsProviderConfiguration & TwilioSmsProviderConfiguration;
+  Partial<SmppSmsProviderConfiguration> & AwsSnsSmsProviderConfiguration & TwilioSmsProviderConfiguration & SparrowSmsProviderConfiguration;
 
 export interface SmsProviderConfiguration extends SmsProviderConfigurations {
   type: SmsProviderType;
@@ -341,6 +349,11 @@ export function smsProviderConfigurationValidator(required: boolean): ValidatorF
             valid = isNotEmptyStr(twilioConfiguration.numberFrom) && isNotEmptyStr(twilioConfiguration.accountSid)
               && isNotEmptyStr(twilioConfiguration.accountToken);
             break;
+          case SmsProviderType.SPARROW:
+            const sparrowConfiguration: SparrowSmsProviderConfiguration = configuration;
+            valid = isNotEmptyStr(sparrowConfiguration.numberFrom) && isNotEmptyStr(sparrowConfiguration.token);
+            break;
+            
           case SmsProviderType.SMPP:
             const smppConfiguration = configuration as SmppSmsProviderConfiguration;
             valid = isNotEmptyStr(smppConfiguration.host) && isNumber(smppConfiguration.port)
@@ -384,6 +397,15 @@ export function createSmsProviderConfiguration(type: SmsProviderType): SmsProvid
         };
         smsProviderConfiguration = {...twilioSmsProviderConfiguration, type: SmsProviderType.TWILIO};
         break;
+        case SmsProviderType.SPARROW:
+          const sparrowSmsProviderConfiguration: SparrowSmsProviderConfiguration = {
+            numberFrom: '',
+            token: '',
+          };
+          smsProviderConfiguration = {...sparrowSmsProviderConfiguration, type: SmsProviderType.SPARROW};
+          break;
+  
+
       case SmsProviderType.SMPP:
         const smppSmsProviderConfiguration: SmppSmsProviderConfiguration = {
           protocolVersion: 3.3,

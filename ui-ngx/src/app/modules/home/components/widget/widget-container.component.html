@@ -96,6 +96,16 @@
               matTooltipPosition="above">
         <mat-icon>file_download</mat-icon>
       </button>
+
+
+      <button mat-icon-button
+      [fxShow]="!widget.isFullscreen"
+      (click)="onDownload($event)"
+      matTooltip="{{ 'widget.download' | translate }}"
+      matTooltipPosition="above">
+<mat-icon>insert_drive_file</mat-icon>
+</button>
+
       <button mat-icon-button
               [fxShow]="isRemoveActionEnabled && !widget.isFullscreen"
               (click)="onRemove($event);"

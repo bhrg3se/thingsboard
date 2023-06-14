@@ -46,6 +46,7 @@ export enum WidgetComponentActionType {
   CONTEXT_MENU,
   EDIT,
   EXPORT,
+  DOWNLOAD,
   REMOVE
 }
 
@@ -191,6 +192,26 @@ export class WidgetContainerComponent extends PageComponent implements OnInit, O
       actionType: WidgetComponentActionType.EXPORT
     });
   }
+  onDownload(event: MouseEvent) {
+    console.log(this.widget.widgetContext.data)
+  
+    let data = JSON.stringify(this.widget.widgetContext.data);
+    let filename = 'data.json';
+    let mimeType = 'application/json';
+    
+  
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(data));
+    element.setAttribute('download', filename);
+  
+    element.style.display = 'none';
+    document.body.appendChild(element);
+  
+    element.click();
+  
+    document.body.removeChild(element);
+  
+    }
 
   onRemove(event: MouseEvent) {
     this.widgetComponentAction.emit({

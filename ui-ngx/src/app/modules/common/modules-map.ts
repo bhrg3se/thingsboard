@@ -278,6 +278,7 @@ import * as TenantProfileConfigurationComponent from '@home/components/profile/t
 import * as SmsProviderConfigurationComponent from '@home/components/sms/sms-provider-configuration.component';
 import * as AwsSnsProviderConfigurationComponent from '@home/components/sms/aws-sns-provider-configuration.component';
 import * as TwilioSmsProviderConfigurationComponent from '@home/components/sms/twilio-sms-provider-configuration.component';
+import * as SparrowSmsProviderConfigurationComponent from '@home/components/sms/sparrow-sms-provider-configuration.component';
 import * as DashboardPageComponent from '@home/components/dashboard-page/dashboard-page.component';
 import * as DashboardToolbarComponent from '@home/components/dashboard-page/dashboard-toolbar.component';
 import * as DashboardLayoutComponent from '@home/components/dashboard-page/layout/dashboard-layout.component';
@@ -577,6 +578,7 @@ class ModulesMap implements IModulesMap {
     '@home/components/sms/sms-provider-configuration.component': SmsProviderConfigurationComponent,
     '@home/components/sms/aws-sns-provider-configuration.component': AwsSnsProviderConfigurationComponent,
     '@home/components/sms/twilio-sms-provider-configuration.component': TwilioSmsProviderConfigurationComponent,
+    '@home/components/sms/sparrow-sms-provider-configuration.component': SparrowSmsProviderConfigurationComponent,
     '@home/components/dashboard-page/dashboard-page.component': DashboardPageComponent,
     '@home/components/dashboard-page/dashboard-toolbar.component': DashboardToolbarComponent,
     '@home/components/dashboard-page/layout/dashboard-layout.component': DashboardLayoutComponent,

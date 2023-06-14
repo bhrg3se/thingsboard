@@ -115,7 +115,11 @@ public class DefaultSmsService implements SmsService {
     public void sendTestSms(TestSmsRequest testSmsRequest) throws ThingsboardException {
         SmsSender testSmsSender;
         try {
+            System.out.println("\n\n\nprovider config start\n\n\n");
+            System.out.println(testSmsRequest.getProviderConfiguration());
             testSmsSender = this.smsSenderFactory.createSmsSender(testSmsRequest.getProviderConfiguration());
+            System.out.println(testSmsSender.getClass());
+            System.out.println("\n\n\nprovider config end\n\n\n");
         } catch (Exception e) {
             throw handleException(e);
         }
